@@ -1,0 +1,8 @@
+aiohttp
+beautifulsoup4
+lxml
+tldextract
+validators
+python-pptx
+weasyprint
+requests
