@@ -9,7 +9,7 @@ Features:
 - React web UI scaffold writer (writes ./web_ui/report.json)
 - Advanced audits: JSON-LD checks, hreflang, canonical chain
 Usage:
-  python seo_audit_tool_extended.py --url https://www.ellocentlabs.com --output reports/report.json --pages 100 --pagespeed-key "${{ secrets.PAGESPEED_KEY }}" --web-ui
+  python seo_audit_tool_extended.py --url https://www.ellocentlabs.com --output reports/report.json --pages 100 --pagespeed-key ${{ secrets.PAGESPEED_KEY }} --web-ui
 Dependencies (pip):
   aiohttp beautifulsoup4 lxml tldextract validators python-pptx weasyprint requests
 """
@@ -277,6 +277,58 @@ def cli():
     args = parser.parse_args()
     report = asyncio.run(run_audit(args.url, output_path=args.output, max_pages=args.pages, pagespeed_key=args.pagespeed_key, write_web_ui=args.web_ui, lighthouse_json=args.lighthouse_json))
     print('Audit complete. Output:', args.output)
+try:
+    with open(args.output, 'r', encoding='utf-8') as f:
+        report_data = json.load(f)
+    generate_pdf_report(report_data, 'reports/SEO_Audit_Report.pdf')
+except Exception as e:
+    print(f"PDF generation failed: {e}")
+
+
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+
+def generate_pdf_report(report_data, output_path='reports/SEO_Audit_Report.pdf'):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    doc = SimpleDocTemplate(output_path, pagesize=A4)
+    styles = getSampleStyleSheet()
+    elements = []
+
+    # Title
+    elements.append(Paragraph("<font size=18 color='#A020F0'><b>VirtuNova SEO Audit Report</b></font>", styles['Title']))
+    elements.append(Spacer(1, 0.25 * inch))
+    elements.append(Paragraph(f"<b>Website:</b> {report_data.get('site', '')}", styles['Normal']))
+    elements.append(Paragraph(f"<b>Generated:</b> {report_data.get('generated_at', '')}", styles['Normal']))
+    elements.append(Spacer(1, 0.25 * inch))
+
+    # Summary
+    total_pages = len(report_data.get('pages', {}))
+    elements.append(Paragraph(f"<b>Total Pages Crawled:</b> {total_pages}", styles['Normal']))
+
+    issues = []
+    for url, pdata in report_data.get('pages', {}).items():
+        if pdata.get('scores', {}).get('score', 100) < 100:
+            issues.append((url, pdata.get('scores', {}).get('reasons', [])))
+
+    elements.append(Spacer(1, 0.25 * inch))
+    elements.append(Paragraph(f"<b>Issues Found:</b> {len(issues)} pages with issues", styles['Normal']))
+
+    # List a few issues
+    for url, reasons in issues[:10]:
+        elements.append(Paragraph(f"<b>{url}</b>", styles['Normal']))
+        for r in reasons:
+            elements.append(Paragraph(f"- {r}", styles['Normal']))
+        elements.append(Spacer(1, 0.15 * inch))
+
+    elements.append(Spacer(1, 0.5 * inch))
+    elements.append(Paragraph("<font color='#A020F0'><b>VirtuNova — Where Creativity, Technology, and Strategy Converge.</b></font>", styles['Italic']))
+
+    doc.build(elements)
+    print(f"✅ PDF report generated: {output_path}")
+
 
 if __name__ == '__main__':
     cli()
