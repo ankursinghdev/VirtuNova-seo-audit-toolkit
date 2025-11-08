@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VirtuNova SEO Audit Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="VirtuNova Logo" class="logo" />
+    <h1>VirtuNova SEO Audit Dashboard</h1>
+    <p>Data-driven insights for smarter website optimization.</p>
+  </header>
+
+  <main>
+    <section class="summary">
+      <h2>Site Summary</h2>
+      <div id="summary"></div>
+    </section>
+
+    <section class="charts">
+      <h2>SEO Score Distribution</h2>
+      <canvas id="scoreChart"></canvas>
+    </section>
+
+    <section class="issues">
+      <h2>Top Issues</h2>
+      <table id="issuesTable">
+        <thead><tr><th>Page</th><th>Issues</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 VirtuNova — Where Creativity, Technology, and Strategy Converge.</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
