@@ -36,8 +36,11 @@ jobs:
           # Save a copy of the HTML and PDF samples (if generated) to reports/
           ls -la reports || true
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: seo-report
-          path: reports
+      - name: Upload SEO reports (JSON + PDF)
+  uses: actions/upload-artifact@v4
+  with:
+    name: seo-report
+    path: |
+      reports/report.json
+      reports/SEO_Audit_Report.pdf
+
