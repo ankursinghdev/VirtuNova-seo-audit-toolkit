@@ -3,13 +3,14 @@ name: SEO Audit
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * 1'  # weekly on Monday at 03:00 UTC
+    - cron: '0 3 * * 1'  # Runs weekly every Monday at 03:00 UTC
 
 jobs:
   audit:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -17,7 +18,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install system dependencies (for some packages)
+      - name: Install system dependencies
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libxml2 libxml2-dev libxslt1-dev libffi-dev libssl-dev build-essential
@@ -27,20 +28,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run SEO audit
+      - name: Run VirtuNova SEO Audit
         env:
-          AIzaSyBWYWsx0hDSHiwy-CeXjajz_TFN6lZpQ5o: ${{ secrets.PAGESPEED_KEY }}
+          PAGESPEED_KEY: ${{ secrets.PAGESPEED_KEY }}
         run: |
-          # Run the audit on the site (change URL if you want)
-          python seo_audit_tool_extended.py --url https://www.ellocentlabs.com --output reports/report.json --pages 50 --pagespeed-key "${AIzaSyBWYWsx0hDSHiwy-CeXjajz_TFN6lZpQ5o}" --web-ui
-          # Save a copy of the HTML and PDF samples (if generated) to reports/
-          ls -la reports || true
+          mkdir -p reports
+          echo "🔍 Running SEO audit for https://www.ellocentlabs.com ..."
+          python seo_audit_tool_extended.py \
+            --url https://www.ellocentlabs.com \
+            --output reports/report.json \
+            --pages 50 \
+            --pagespeed-key "${PAGESPEED_KEY}" \
+            --web-ui
+          echo "✅ SEO audit completed. Reports saved in 'reports/' folder."
 
-      - name: Upload SEO reports (JSON + PDF)
-  uses: actions/upload-artifact@v4
-  with:
-    name: seo-report
-    path: |
-      reports/report.json
-      reports/SEO_Audit_Report.pdf
-
+      - name: Upload SEO Reports (JSON + PDF)
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-report
+          path: |
+            reports/report.json
+            reports/SEO_Audit_Report.pdf
