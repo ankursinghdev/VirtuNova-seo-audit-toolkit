@@ -9,7 +9,7 @@ Features:
 - React web UI scaffold writer (writes ./web_ui/report.json)
 - Advanced audits: JSON-LD checks, hreflang, canonical chain
 Usage:
-  python seo_audit_tool_extended.py --url https://example.com --output reports/report.json --pages 100 --pagespeed-key YOUR_KEY --lighthouse-json lighthouse-report.json --web-ui
+  python seo_audit_tool_extended.py --url https://www.ellocentlabs.com --output reports/report.json --pages 1000 --pagespeed-key AIzaSyBWYWsx0hDSHiwy-CeXjajz_TFN6lZpQ5o --lighthouse-json lighthouse-report.json --web-ui
 Dependencies (pip):
   aiohttp beautifulsoup4 lxml tldextract validators python-pptx weasyprint requests
 """
