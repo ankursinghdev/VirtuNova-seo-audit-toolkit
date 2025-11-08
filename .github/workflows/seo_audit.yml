@@ -29,10 +29,10 @@ jobs:
 
       - name: Run SEO audit
         env:
-          PAGESPEED_KEY: ${{ secrets.PAGESPEED_KEY }}
+          AIzaSyBWYWsx0hDSHiwy-CeXjajz_TFN6lZpQ5o: ${{ secrets.PAGESPEED_KEY }}
         run: |
           # Run the audit on the site (change URL if you want)
-          python seo_audit_tool_extended.py --url https://example.com --output reports/report.json --pages 50 --pagespeed-key "${PAGESPEED_KEY}" --web-ui
+          python seo_audit_tool_extended.py --url https://www.ellocentlabs.com --output reports/report.json --pages 50 --pagespeed-key "${AIzaSyBWYWsx0hDSHiwy-CeXjajz_TFN6lZpQ5o}" --web-ui
           # Save a copy of the HTML and PDF samples (if generated) to reports/
           ls -la reports || true
 
