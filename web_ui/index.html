@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VirtuNova SEO Audit Dashboard</title>
+  <title>VirtuNova SEO Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -11,31 +11,39 @@
   <header>
     <img src="logo.png" alt="VirtuNova Logo" class="logo" />
     <h1>VirtuNova SEO Audit Dashboard</h1>
-    <p>Data-driven insights for smarter website optimization.</p>
+    <p class="subtitle">Smart insights powered by automation and creativity.</p>
   </header>
 
   <main>
-    <section class="summary">
-      <h2>Site Summary</h2>
+    <section class="summary-card">
+      <h2>Website Overview</h2>
       <div id="summary"></div>
     </section>
 
     <section class="charts">
-      <h2>SEO Score Distribution</h2>
-      <canvas id="scoreChart"></canvas>
+      <div class="chart-card">
+        <h3>SEO Score Trend</h3>
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Score Distribution</h3>
+        <canvas id="scoreChart"></canvas>
+      </div>
     </section>
 
     <section class="issues">
-      <h2>Top Issues</h2>
+      <h2>Top Issues Detected</h2>
       <table id="issuesTable">
-        <thead><tr><th>Page</th><th>Issues</th></tr></thead>
+        <thead>
+          <tr><th>Page</th><th>Issues</th><th>Score</th></tr>
+        </thead>
         <tbody></tbody>
       </table>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 VirtuNova — Where Creativity, Technology, and Strategy Converge.</p>
+    <p>© 2025 <strong>VirtuNova</strong> — Where Creativity, Technology, and Strategy Converge.</p>
   </footer>
 
   <script src="dashboard.js"></script>
